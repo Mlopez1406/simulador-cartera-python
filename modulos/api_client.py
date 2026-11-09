@@ -4,7 +4,7 @@ import os
 import time
 import random
 
-API_KEY_FINNHUB = "cqu011hr01qgd1s011g0cqu011hr01qgd1s011gg"  # Clave gratuita de demostración / reemplazar por la propia
+API_KEY_FINNHUB = "dboq4vhr01qo2f3ncp10dboq4vhr01qo2f3ncp1g"
 RUTA_CACHE = "datos/cache_cotizaciones.json"
 TIEMPO_EXPIRACION_SEGUNDOS = 600  # 10 minutos de validez de caché
 

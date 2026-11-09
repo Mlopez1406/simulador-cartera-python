@@ -89,8 +89,13 @@ def ejecutar():
                 print(f"{'FECHA':<20} {'TIPO':<8} {'TICKER':<8} {'CANT':<6} {'PRECIO (€)':<12} {'TOTAL (€)':<10}")
                 print("-" * 68)
                 for reg in historial:
-                    print(f"{reg['fecha_hora']:<20} {reg['operacion']:<8} {reg['ticker']:<8} {reg['cantidad']:<6} {float(reg['precio_unitario']):<12.2f} {float(reg['total']):<10.2f}")
-
+                    fecha = reg.get('fecha_hora', '-')
+                    op = reg.get('operacion', '-')
+                    tick = reg.get('ticker', '-')
+                    cant = reg.get('cantidad', '0')
+                    precio = float(reg.get('precio_unitario', 0))
+                    total = float(reg.get('total', 0))
+                    print(f"{fecha:<20} {op:<8} {tick:<8} {cant:<6} {precio:<12.2f} {total:<10.2f}")
         elif opcion == "6":
             guardar_cartera(cartera)
             print("\n Cartera guardada correctamente. ¡Hasta pronto!")
