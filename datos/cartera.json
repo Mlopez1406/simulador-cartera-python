@@ -1,0 +1,9 @@
+{
+    "saldo_euros": 9245.2,
+    "acciones": {
+        "AAPL": {
+            "cantidad": 5,
+            "precio_medio": 150.96
+        }
+    }
+}
