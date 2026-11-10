@@ -1,2 +1,4 @@
 fecha_hora;operacion;ticker;cantidad;precio_unitario;total
 2026-11-09 11:52:07;COMPRA;AAPL;3;342.37;1027.11
+2026-11-10 08:28:32;COMPRA;TSLA;5;378.05;1890.25
+2026-11-10 08:32:39;INGRESO;CASH;1;500.0;500.0

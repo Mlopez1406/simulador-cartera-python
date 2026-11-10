@@ -1,6 +1,6 @@
 from modulos.file_handler import cargar_cartera, guardar_cartera, registrar_transaccion, leer_historial
 from modulos.api_client import obtener_precio_actual
-from modulos.portfolio_manager import comprar_accion, vender_accion, calcular_resumen
+from modulos.portfolio_manager import comprar_accion, vender_accion, calcular_resumen, ingresar_saldo
 
 def mostrar_menu():
     print("\n" + "="*45)
@@ -10,8 +10,9 @@ def mostrar_menu():
     print(" 2. Consultar cotización en tiempo real")
     print(" 3. Comprar acciones")
     print(" 4. Vender acciones")
-    print(" 5. Ver historial de transacciones (CSV)")
-    print(" 6. Guardar y Salir")
+    print(" 5. Ingresar saldo a la cuenta")
+    print(" 6. Ver historial de transacciones (CSV)")
+    print(" 7. Guardar y Salir")
     print("="*45)
 
 def ejecutar():
@@ -20,7 +21,7 @@ def ejecutar():
 
     while True:
         mostrar_menu()
-        opcion = input("Selecciona una opción (1-6): ").strip()
+        opcion = input("Selecciona una opción (1-7): ").strip()
 
         if opcion == "1":
             resumen = calcular_resumen(cartera, obtener_precio_actual)
@@ -47,6 +48,9 @@ def ejecutar():
 
         elif opcion == "3":
             ticker = input("Ticker de la empresa a COMPRAR: ").strip().upper()
+            if not ticker:
+                print(" Error: Debes introducir un Ticker válido.")
+                continue
             try:
                 cant = int(input("Cantidad de acciones: "))
                 if cant <= 0:
@@ -66,6 +70,9 @@ def ejecutar():
 
         elif opcion == "4":
             ticker = input("Ticker de la empresa a VENDER: ").strip().upper()
+            if not ticker:
+                print(" Error: Debes introducir un Ticker válido.")
+                continue
             try:
                 cant = int(input("Cantidad de acciones a vender: "))
                 if cant <= 0:
@@ -81,6 +88,17 @@ def ejecutar():
                 print(" Error: Introduce un número entero válido para la cantidad.")
 
         elif opcion == "5":
+            try:
+                monto = float(input("Introduce la cantidad de dinero a ingresar (€): "))
+                exito, msj = ingresar_saldo(cartera, monto)
+                print(f"\n{msj}")
+                if exito:
+                    guardar_cartera(cartera)
+                    registrar_transaccion("INGRESO", "CASH", 1, monto)
+            except ValueError:
+                print(" Error: Introduce un número decimal/entero válido para el importe.")
+
+        elif opcion == "6":
             historial = leer_historial()
             print("\n--- HISTORIAL DE TRANSACCIONES ---")
             if not historial:
@@ -96,12 +114,13 @@ def ejecutar():
                     precio = float(reg.get('precio_unitario', 0))
                     total = float(reg.get('total', 0))
                     print(f"{fecha:<20} {op:<8} {tick:<8} {cant:<6} {precio:<12.2f} {total:<10.2f}")
-        elif opcion == "6":
+
+        elif opcion == "7":
             guardar_cartera(cartera)
             print("\n Cartera guardada correctamente. ¡Hasta pronto!")
             break
         else:
-            print(" Opción no válida. Por favor, elige un número del 1 al 6.")
+            print(" Opción no válida. Por favor, elige un número del 1 al 7.")
 
 if __name__ == "__main__":
     ejecutar()

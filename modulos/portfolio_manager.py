@@ -97,3 +97,13 @@ def calcular_resumen(cartera, obtener_precio_func):
         "pnl_global_pct": round(pnl_global_pct, 2),
         "posiciones": detalles
     }
+    
+def ingresar_saldo(cartera, cantidad):
+    """
+    Añade dinero al saldo disponible en efectivo del usuario.
+    """
+    if cantidad <= 0:
+        return False, "La cantidad a ingresar debe ser mayor que 0 €."
+    
+    cartera["saldo_euros"] += cantidad
+    return True, f"Ingreso realizado con éxito. Nuevo saldo disponible: {cartera['saldo_euros']:.2f} €."

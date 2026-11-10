@@ -1,9 +1,13 @@
 {
-    "saldo_euros": 7547.9000000000015,
+    "saldo_euros": 6157.6500000000015,
     "acciones": {
         "AAPL": {
             "cantidad": 10,
             "precio_medio": 275.38
+        },
+        "TSLA": {
+            "cantidad": 5,
+            "precio_medio": 378.05
         }
     }
 }
