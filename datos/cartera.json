@@ -1,5 +1,5 @@
 {
-    "saldo_euros": 6157.6500000000015,
+    "saldo_euros": 5575.770000000001,
     "acciones": {
         "AAPL": {
             "cantidad": 10,
@@ -8,6 +8,14 @@
         "TSLA": {
             "cantidad": 5,
             "precio_medio": 378.05
+        },
+        "NVDA": {
+            "cantidad": 2,
+            "precio_medio": 162.85
+        },
+        "WMT": {
+            "cantidad": 2,
+            "precio_medio": 128.09
         }
     }
 }

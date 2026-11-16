@@ -1,19 +1,21 @@
 from modulos.file_handler import cargar_cartera, guardar_cartera, registrar_transaccion, leer_historial
-from modulos.api_client import obtener_precio_actual
+from modulos.api_client import obtener_precio_actual, obtener_datos_volatilidad
 from modulos.portfolio_manager import comprar_accion, vender_accion, calcular_resumen, ingresar_saldo
+from modulos.visualizer import generar_panel_graficas
 
 def mostrar_menu():
-    print("\n" + "="*45)
+    print("\n" + "="*48)
     print("   SIMULADOR DE TRADING VIRTUAL (PAPER TRADING)")
-    print("="*45)
+    print("="*48)
     print(" 1. Ver estado de la cartera y P&L")
     print(" 2. Consultar cotización en tiempo real")
     print(" 3. Comprar acciones")
     print(" 4. Vender acciones")
     print(" 5. Ingresar saldo a la cuenta")
     print(" 6. Ver historial de transacciones (CSV)")
-    print(" 7. Guardar y Salir")
-    print("="*45)
+    print(" 7. Generar gráficas de análisis (Hipótesis)")
+    print(" 8. Guardar y Salir")
+    print("="*48)
 
 def ejecutar():
     cartera = cargar_cartera()
@@ -21,7 +23,7 @@ def ejecutar():
 
     while True:
         mostrar_menu()
-        opcion = input("Selecciona una opción (1-7): ").strip()
+        opcion = input("Selecciona una opción (1-8): ").strip()
 
         if opcion == "1":
             resumen = calcular_resumen(cartera, obtener_precio_actual)
@@ -116,11 +118,15 @@ def ejecutar():
                     print(f"{fecha:<20} {op:<8} {tick:<8} {cant:<6} {precio:<12.2f} {total:<10.2f}")
 
         elif opcion == "7":
+            resumen = calcular_resumen(cartera, obtener_precio_actual)
+            generar_panel_graficas(resumen, obtener_datos_volatilidad)
+
+        elif opcion == "8":
             guardar_cartera(cartera)
             print("\n Cartera guardada correctamente. ¡Hasta pronto!")
             break
         else:
-            print(" Opción no válida. Por favor, elige un número del 1 al 7.")
+            print(" Opción no válida. Por favor, elige un número del 1 al 8.")
 
 if __name__ == "__main__":
     ejecutar()

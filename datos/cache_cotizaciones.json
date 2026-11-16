@@ -1,10 +1,18 @@
 {
     "AAPL": {
-        "precio": 350.69,
-        "timestamp": 1794295642.0586865
+        "precio": 356.27,
+        "timestamp": 1794831548.135232
     },
     "TSLA": {
-        "precio": 378.05,
-        "timestamp": 1794295670.8796508
+        "precio": 390.22,
+        "timestamp": 1794831548.3306084
+    },
+    "NVDA": {
+        "precio": 162.85,
+        "timestamp": 1794831548.5267005
+    },
+    "WMT": {
+        "precio": 128.09,
+        "timestamp": 1794831548.704714
     }
 }
