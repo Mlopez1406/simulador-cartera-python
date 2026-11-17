@@ -5,6 +5,7 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 from backend import PortfolioService, quote
+from modulos.api_client import obtener_datos_volatilidad
 
 st.set_page_config(page_title='Nexo | Simulador de cartera', page_icon='📈', layout='wide')
 st.markdown('''<style>
@@ -74,10 +75,33 @@ if page in ('Resumen', 'Análisis'):
         st.subheader('Posiciones abiertas')
         st.dataframe(df, hide_index=True, width='stretch')
         if page == 'Análisis':
-            st.subheader('Concentración de la inversión')
-            largest = df.loc[df['Valor'].idxmax()]
-            st.info(f"{largest['Activo']} representa el {largest['Valor']/summary['valor_inversiones']*100:.1f}% del capital invertido.")
-            st.caption('No se muestra evolución temporal ni volatilidad histórica porque el proyecto no contiene una serie de precios históricos.')
+         st.subheader('Concentración de la inversión')
+         largest = df.loc[df['Valor'].idxmax()]
+         st.info(f"{largest['Activo']} representa el {largest['Valor']/summary['valor_inversiones']*100:.1f}% del capital invertido.")
+
+         st.subheader('Contraste de Hipótesis: Tecnológicas vs. Tradicionales')
+         tecnologicas = {'TSLA', 'NVDA', 'AAPL', 'MSFT', 'META', 'AMZN', 'GOOGL'}
+         filas_vol = []
+         for t in df['Activo']:
+             dato = obtener_datos_volatilidad(t)
+             sector = 'Tecnológica / Mediática' if t in tecnologicas else 'Tradicional / Consumo'
+             filas_vol.append({'Activo': t, 'Sector': sector, 'Oscilación %': dato['oscilacion_pct']})
+
+         vol_df = pd.DataFrame(filas_vol)
+         chart_vol = alt.Chart(vol_df).mark_bar(cornerRadiusEnd=5).encode(
+             x='Activo:N',
+             y='Oscilación %:Q',
+             color=alt.Color('Sector:N', scale=alt.Scale(domain=['Tecnológica / Mediática', 'Tradicional / Consumo'], range=['#8e44ad', '#2980b9'])),
+             tooltip=['Activo', 'Sector', 'Oscilación %']
+         ).properties(height=300)
+         st.altair_chart(chart_vol, width='stretch')
+
+         m_tech = vol_df[vol_df['Sector'] == 'Tecnológica / Mediática']['Oscilación %'].mean()
+         m_trad = vol_df[vol_df['Sector'] == 'Tradicional / Consumo']['Oscilación %'].mean()
+         if pd.notna(m_tech) and pd.notna(m_trad):
+             st.success(f"Conclusión: Las tecnológicas oscilan una media del {m_tech:.2f}% frente al {m_trad:.2f}% de las tradicionales, confirmando variaciones más bruscas.")
+         else:
+             st.info("Compra al menos una acción tecnológica (ej. TSLA, NVDA) y una tradicional (ej. WMT, KO) para comparar ambos sectores.")
 
 elif page == 'Operar':
     left, right = st.columns([1.5,1])

@@ -97,7 +97,7 @@ def quote(ticker):
     """Precios de referencia reproducibles; no se presentan como mercado actual."""
     ticker = validate_ticker(ticker)
     data = json.loads((ROOT / 'datos/cache_cotizaciones.json').read_text(encoding='utf-8'))
-    defaults = {'MSFT': 420.0, 'AMZN': 210.0, 'GOOGL': 180.0, 'META': 580.0}
+    defaults = {'MSFT': 420.0, 'AMZN': 210.0, 'GOOGL': 180.0, 'META': 580.0, 'KO': 62.0, 'PG': 168.0, 'WMT': 85.0}
     price = data.get(ticker, {}).get('precio', defaults.get(ticker))
     if price is None:
         raise ValueError('No hay precio de demostración para ese ticker. Usa uno de los símbolos disponibles.')
